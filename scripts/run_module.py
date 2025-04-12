@@ -7,23 +7,9 @@ from config.constants import DOCKER_REPO, GITHUB_REPO, GITHUB_TAG
 
 
 def run_module():
-    # print(os.getcwd())
-    # get the current path
-    # print(os.path.abspath("./"))
     DEMONET_PRIVATE_KEY = os.environ.get("DEMONET_PRIVATE_KEY")
     WEB3_PRIVATE_KEY = os.environ.get("WEB3_PRIVATE_KEY")
 
-    # TODO: Remove the following print and sys.exit statements and create the module job.
-    # print(
-    #     "❌ Error: No job configured. Implement the module's job before running the module.",
-    #     file=sys.stderr,
-    #     flush=True,
-    # )
-    # print("\t1. Implement job module")
-    # print("\t\t👉 /src/run_inference.py")
-    # print("\t2. Delete this code block")
-    # print("\t\t👉 /scripts/run_module.py")
-    # sys.exit(1)
 
     parser = argparse.ArgumentParser(
         description="Run the Lilypad module with specified input."
@@ -51,12 +37,6 @@ def run_module():
 
     args = parser.parse_args()
 
-    # if args.input is None:
-    #     args.input = input("Enter your input: ").strip()
-    #     if not args.input:
-    #         # Default input value, /app is key for working directory(don't know why ahah)
-    #         args.input = "/app/models/processed/x_test.csv"
-
     local = args.local
     demonet = args.demonet
 
@@ -82,7 +62,7 @@ def run_module():
             "--web3-private-key",
             DEMONET_PRIVATE_KEY,
             "-i",
-            f'input="{args.input}"',
+            f'INPUT="{args.input}"',
         ]
     else:
         command = [
@@ -91,8 +71,8 @@ def run_module():
             f"{GITHUB_REPO}:{GITHUB_TAG}",
             "--web3-private-key",
             WEB3_PRIVATE_KEY,
-            # "-i",
-            # f'input="{args.input}"',
+            "-i",
+            f'INPUT="{args.input}"',
         ]
 
     try:

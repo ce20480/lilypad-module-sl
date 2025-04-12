@@ -8,9 +8,9 @@
         "WorkingDirectory": "/app",
         "Entrypoint": ["python", "/app/src/run_inference.py"],
         "EnvironmentVariables": [
-        {{if .input }}"INPUT={{ js .input }}"{{ else }}"INPUT=/app/models/processed/x_test.csv"{{end}}
+        "INPUT={{ js .INPUT }}"
         ],
-        "Image": "aviini/lilypad-module-sentiment:latest"
+        "Image": "aviini/lilypad-module-ls:latest"
       },
       "Engine": "Docker",
       "Network": { "Type": "None" },
