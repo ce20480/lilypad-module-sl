@@ -53,9 +53,10 @@ def run_job(landmarks, model):
             pred_class = torch.argmax(probabilities, dim=1)
             confidence = torch.max(probabilities, dim=1).values
 
-
+        print("Predicted class:", pred_class.item(), file=sys.stderr, flush=True)
         # Get letter from prediction
         letter = LETTER_MAPPING[pred_class.item()]
+
 
         # Calculate a confidence score for evaluation (0.0-1.0)
         confidence = float(confidence.item())
@@ -66,6 +67,7 @@ def run_job(landmarks, model):
             "confidence": score,
             "status": "success",
         }
+        print("Output:", output, file=sys.stderr, flush=True)
 
     except Exception as error:
         print(
@@ -88,6 +90,7 @@ def main():
     # Get input from environment variable
     input = os.environ.get("INPUT")
     print("Input:", input, file=sys.stderr, flush=True)
+
     parsed_landmarks = json.loads(input)
 
     # `/app` directory aligns with the `WORKDIR` specified in the `Dockerfile`
