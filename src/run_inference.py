@@ -43,6 +43,9 @@ def run_job(landmarks, model):
     """
     """Combine input file with working directory to get the full path"""
     try:
+        if isinstance(landmarks, str):
+            landmarks = json.loads(landmarks)
+
         features = np.array(landmarks).astype(np.float32)
         input_tensor = torch.tensor(features).unsqueeze(0)
 
