@@ -1,0 +1,22 @@
+{
+  "machine": { "gpu": 0, "vram": 0, "cpu": 6000, "ram": 6000 },
+  "job": {
+    "APIVersion": "V1beta1",
+    "Spec": {
+      "Deal": { "Concurrency": 1 },
+      "Docker": {
+        "WorkingDirectory": "/app",
+        "Entrypoint": ["python", "/app/src/run_inference.py"],
+        "EnvironmentVariables": [
+        {{if .input }}"INPUT={{ js .input }}"{{ else }}"INPUT=/app/models/processed/x_test.csv"{{end}}
+        ],
+        "Image": "aviini/lilypad-module-sentiment:latest"
+      },
+      "Engine": "Docker",
+      "Network": { "Type": "None" },
+      "Outputs": [{ "Name": "outputs", "Path": "/outputs" }],
+      "Resources": { "GPU": "", "CPU": "1", "Memory": "2Gb" },
+      "Timeout": 600
+    }
+  }
+}
