@@ -93,8 +93,10 @@ def main():
     # Get input from environment variable
     input = os.environ.get("INPUT")
     print("Input:", input, file=sys.stderr, flush=True)
-
-    parsed_landmarks = json.loads(input)
+    if isinstance(input, str):
+        landmarks = json.loads(input)
+    else:
+        landmarks = input
 
     # `/app` directory aligns with the `WORKDIR` specified in the `Dockerfile`
     model_path = "/app/models/asl_model_20250310_184213.pt"
@@ -125,7 +127,7 @@ def main():
         model.load_state_dict(checkpoint["model_state_dict"])
         model.eval()
 
-        output = run_job(parsed_landmarks, model)
+        output = run_job(landmarks, model)
 
     except Exception as error:
         print("❌ Error during processing:", file=sys.stderr, flush=True)
@@ -139,7 +141,7 @@ def main():
 
     try:
         with open(output_path, "w") as file:
-            json.dump({"output": output, "landmarks": parsed_landmarks}, file, indent=2)
+            json.dump({"output": output, "landmarks": landmarks}, file, indent=2)
         print(
             f"✅ Successfully wrote output to {output_path}",
         )
